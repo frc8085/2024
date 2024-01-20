@@ -11,8 +11,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
   // imports motor id
-  private final CANSparkMax m_shooterMotor1 = new CANSparkMax(ShooterConstants.kShooter1CanId, MotorType.kBrushless);
-  private final CANSparkMax m_shooterMotor2 = new CANSparkMax(ShooterConstants.kShooter2CanId, MotorType.kBrushless);
+  private final CANSparkMax m_shooterMotor1 = new CANSparkMax(
+      ShooterConstants.kShooter1CanId, MotorType.kBrushless);
+  private final CANSparkMax m_shooterMotor2 = new CANSparkMax(
+      ShooterConstants.kShooter2CanId, MotorType.kBrushless);
 
   private double speed1 = ShooterConstants.speed1;
   private double speed2 = ShooterConstants.speed2;
