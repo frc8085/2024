@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LoggingConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -93,9 +94,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private void log() {
-    SmartDashboard.putNumber("Heading", getHeading());
-    SmartDashboard.putNumber("X Pose", getPose().getX());
-    SmartDashboard.putNumber("Y Pose", getPose().getY());
+    if (LoggingConstants.kLogging) {
+      SmartDashboard.putNumber("Heading", getHeading());
+      SmartDashboard.putNumber("X Pose", getPose().getX());
+      SmartDashboard.putNumber("Y Pose", getPose().getY());
+    }
   }
 
   /**

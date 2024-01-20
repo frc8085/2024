@@ -25,6 +25,11 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static final class LoggingConstants {
+    public static final boolean kLogging = true;
+
+  }
+
   public static final class IntakeConstants {
     public static final int kIRPort = 1;
   }
