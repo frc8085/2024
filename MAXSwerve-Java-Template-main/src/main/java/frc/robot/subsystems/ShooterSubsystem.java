@@ -31,14 +31,14 @@ public class ShooterSubsystem extends SubsystemBase {
    */
 
   public void forward() {
-          m_shooterMotor1.set(speed1);
-         m_shooterMotor2.set(speed2);
+    m_shooterMotor1.set(speed1);
+    m_shooterMotor2.set(speed2);
 
   }
 
   public void stop() {
-      m_shooterMotor1.set(0);
-     m_shooterMotor2.set(0);
+    m_shooterMotor1.set(0);
+    m_shooterMotor2.set(0);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void tuneSpeeds() {
     speed1 = SmartDashboard.getNumber("shooter1 speed", ShooterConstants.speed1);
-    speed2 = SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed1);
+    speed2 = SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2);
 
     SmartDashboard.putNumber("shooter1 speed", speed1);
     SmartDashboard.putNumber("shooter2 speed", speed2);
