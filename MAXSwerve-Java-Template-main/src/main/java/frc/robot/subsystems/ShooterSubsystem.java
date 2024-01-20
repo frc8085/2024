@@ -1,4 +1,23 @@
-package frc.robot.subsystems;
+
+
+  
+    
+
+  
+
+  
+    
+  
+
+
+
+  
+
+  
+
+    
+
+  package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,22 +48,30 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
 
-  public void forward(int motor) {
-    if (motor == 1) {
+
+   public void forward1() {
       m_shooterMotor1.set(SmartDashboard.getNumber("shooter1 speed", ShooterConstants.speed1));
-    }
-    if (motor == 2) {
-      m_shooterMotor2.set(SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2));
-    }
+   
   }
 
-  public void stop(int motor) {
-    if (motor == 1) {
+   public void forward2() {
+         m_shooterMotor2.set(SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2));
+    }
+
+
+
+
+   public void stop1() {
       m_shooterMotor1.set(0);
-    }
-    if (motor == 2) {
+  
+    
+  }
+
+   public void stop2() {
+    
+  
       m_shooterMotor2.set(0);
-    }
+   
   }
 
   @Override
