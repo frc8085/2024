@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Intake;
-import frc.robot.commands.Shoot;
 
 import java.util.List;
 
@@ -83,8 +82,10 @@ public class RobotContainer {
         final Trigger intakeButton = m_operatorController.y();
         intakeButton.whileTrue(new Intake(m_intake));
         final Trigger ShooterButton1 = m_operatorController.x();
-        ShooterButton1.onTrue(new Shoot(m_shooter, 1));
-        ShooterButton1.onTrue(new InstantCommand(() -> m_shooter.stop(1)));
+        ShooterButton1.toggleOnTrue(Commands.startEnd(
+                () -> m_shooter.forward(1),
+                () -> m_shooter.stop(1),
+                m_shooter));
         final Trigger ShooterButton2 = m_operatorController.b();
         ShooterButton2.toggleOnTrue(Commands.startEnd(
                 () -> m_shooter.forward(2),
