@@ -22,6 +22,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -82,11 +83,13 @@ public class RobotContainer {
         final Trigger intakeButton = m_operatorController.y();
         intakeButton.whileTrue(new Intake(m_intake));
         final Trigger ShooterButton1 = m_operatorController.x();
-        ShooterButton1.whileTrue(new Shoot(m_shooter, 1));
-        ShooterButton1.whileFalse(new InstantCommand(() -> m_shooter.stop(1)));
+        ShooterButton1.onTrue(new Shoot(m_shooter, 1));
+        ShooterButton1.onTrue(new InstantCommand(() -> m_shooter.stop(1)));
         final Trigger ShooterButton2 = m_operatorController.b();
-        ShooterButton2.whileTrue(new Shoot(m_shooter, 2));
-        ShooterButton2.whileFalse(new InstantCommand(() -> m_shooter.stop(2)));
+        ShooterButton2.toggleOnTrue(Commands.startEnd(
+                () -> m_shooter.forward(2),
+                () -> m_shooter.stop(2),
+                m_shooter));
     }
 
     /**
