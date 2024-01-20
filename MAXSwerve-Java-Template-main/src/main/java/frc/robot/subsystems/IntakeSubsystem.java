@@ -3,18 +3,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LoggingConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import static frc.robot.Constants.DriveConstants;
-
 public class IntakeSubsystem extends SubsystemBase {
   // imports motor id
-  private final CANSparkMax m_intakeMotor = new CANSparkMax(DriveConstants.kIntake1CanId, MotorType.kBrushless);
+  private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntake1CanId, MotorType.kBrushless);
   DigitalInput breakBeam = new DigitalInput(IntakeConstants.kIRPort);
 
   /** Creates a new ExampleSubsystem. */

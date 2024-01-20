@@ -20,13 +20,16 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Intake;
+import frc.robot.commands.Shoot;
 
 import java.util.List;
 
@@ -40,6 +43,7 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
     // The controllers
     CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -77,6 +81,12 @@ public class RobotContainer {
     private void configureButtonBindings() {
         final Trigger intakeButton = m_operatorController.y();
         intakeButton.whileTrue(new Intake(m_intake));
+        final Trigger ShooterButton1 = m_operatorController.x();
+        ShooterButton1.whileTrue(new Shoot(m_shooter, 1));
+        ShooterButton1.whileFalse(new InstantCommand(() -> m_shooter.stop(1)));
+        final Trigger ShooterButton2 = m_operatorController.b();
+        ShooterButton2.whileTrue(new Shoot(m_shooter, 2));
+        ShooterButton2.whileFalse(new InstantCommand(() -> m_shooter.stop(2)));
     }
 
     /**

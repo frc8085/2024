@@ -32,6 +32,14 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIRPort = 1;
+    public static final int kIntake1CanId = 21;
+  }
+
+  public static final class ShooterConstants {
+    public static final int kShooter1CanId = 26;
+    public static final int kShooter2CanId = 27;
+    public static final double speed1 = -1;
+    public static final double speed2 = 8.8;
   }
 
   public static final class DriveConstants {
@@ -71,8 +79,6 @@ public final class Constants {
     public static final int kRearLeftTurningCanId = 12;
     public static final int kFrontRightTurningCanId = 13;
     public static final int kRearRightTurningCanId = 14;
-
-    public static final int kIntake1CanId = 21;
 
     // Gyro Constants
     public static final int kGyroDeviceNumber = 15;
