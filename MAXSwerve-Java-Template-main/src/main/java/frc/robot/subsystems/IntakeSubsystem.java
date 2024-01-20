@@ -46,12 +46,17 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     log();
+    NoteDetected();
   }
 
   public void log() {
     if (LoggingConstants.kLogging) {
-      SmartDashboard.putBoolean("Break Beam", breakBeam.get());
+      SmartDashboard.putBoolean("Note detected", NoteDetected());
     }
+  }
+
+  public Boolean NoteDetected() {
+    return !breakBeam.get();
   }
 
 }
