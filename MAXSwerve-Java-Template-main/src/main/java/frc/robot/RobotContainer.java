@@ -81,16 +81,16 @@ public class RobotContainer {
     private void configureButtonBindings() {
         final Trigger intakeButton = m_operatorController.y();
         intakeButton.whileTrue(new Intake(m_intake));
-        final Trigger ShooterButton1 = m_operatorController.x();
-        ShooterButton1.toggleOnTrue(Commands.startEnd(
-                m_shooter::forward1,
-                m_shooter::stop1,
-                m_shooter));
-        final Trigger ShooterButton2 = m_operatorController.b();
-        ShooterButton2.toggleOnTrue(Commands.startEnd(
-                m_shooter::forward2,
-                m_shooter::stop2,
-                m_shooter));
+
+        final Trigger ShooterButton1 = m_operatorController.b();
+        final Trigger ShooterButton2 = m_operatorController.x();
+
+        ShooterButton1.whileTrue(new InstantCommand(() -> m_shooter.forward(1)));
+        ShooterButton1.onFalse(new InstantCommand(() -> m_shooter.stop(1)));
+
+        ShooterButton2.whileTrue(new InstantCommand(() -> m_shooter.forward(2)));
+        ShooterButton2.whileFalse(new InstantCommand(() -> m_shooter.stop(2)));
+
     }
 
     /**
