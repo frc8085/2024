@@ -30,22 +30,15 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
 
-  public void forward(int motor) {
-    if (motor == 1) {
-      m_shooterMotor1.set(speed1);
-    }
-    if (motor == 2) {
-      m_shooterMotor2.set(speed2);
-    }
+  public void forward() {
+          m_shooterMotor1.set(speed1);
+         m_shooterMotor2.set(speed2);
+
   }
 
-  public void stop(int motor) {
-    if (motor == 1) {
+  public void stop() {
       m_shooterMotor1.set(0);
-    }
-    if (motor == 2) {
-      m_shooterMotor2.set(0);
-    }
+     m_shooterMotor2.set(0);
   }
 
   @Override
