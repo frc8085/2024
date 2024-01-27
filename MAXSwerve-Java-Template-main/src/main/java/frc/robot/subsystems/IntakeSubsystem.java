@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LoggingConstants;
+import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -17,9 +18,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax m_intakeMotor = new CANSparkMax(DriveConstants.kIntake1CanId, MotorType.kBrushless);
   DigitalInput breakBeam = new DigitalInput(IntakeConstants.kIRPort);
 
+  private double speed = IntakeConstants.speed;
+
   /** Creates a new ExampleSubsystem. */
   public IntakeSubsystem() {
-
+    SmartDashboard.putNumber("intake speed", speed);
   }
 
   /**
@@ -30,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
 
   public void forward() {
-    m_intakeMotor.set(1);
+    m_intakeMotor.set(speed);
   }
 
   public void stop() {
@@ -47,6 +50,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     log();
     NoteDetected();
+    tuneSpeeds();
   }
 
   public void log() {
@@ -57,6 +61,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Boolean NoteDetected() {
     return !breakBeam.get();
+  }
+
+  public void tuneSpeeds() {
+    speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);
+
+    SmartDashboard.putNumber("Intake speed", speed);
   }
 
 }

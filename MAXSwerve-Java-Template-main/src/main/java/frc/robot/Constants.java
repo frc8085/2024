@@ -32,6 +32,28 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIRPort = 1;
+    public static final int kIntake1CanId = 21;
+    public static final double speed = .5;
+  }
+
+  public static final class ShooterConstants {
+    public static final int kShooter1CanId = 26;
+    public static final int kShooter2CanId = 27;
+    public static final double speed1 = .8;
+    public static final double speed2 = -.8;
+  }
+
+  public static final class DoubleJointedArmConstants {
+    public static final int kArmCanId = 23;
+    public static final int kShooterArmCanId = 24;
+  }
+
+  public static final class ClimberConstants {
+    public static final int kWinchCanId = 22;
+  }
+
+  public static final class FeederConstants {
+    public static final int kFeederCanId = 25;
   }
 
   public static final class DriveConstants {
