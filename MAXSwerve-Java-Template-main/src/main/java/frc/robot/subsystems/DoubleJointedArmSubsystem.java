@@ -127,13 +127,13 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
     }
   }
 
-  // Returns the current arm
-  public double getCurrentArmPosition() {
+  // Returns the arm
+  public double getArmPosition() {
     return m_armEncoder.getPosition();
   }
 
-  // Returns the current Shooter arm
-  public double getCurrentShooterArmPosition() {
+  // Returns the Shooter arm
+  public double getShooterArmPosition() {
     return m_shooterArmEncoder.getPosition();
   }
 
@@ -163,6 +163,8 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
 
   public void log() {
     if (LoggingConstants.kLogging) {
+      SmartDashboard.putNumber("Arm Position", getArmPosition());
+      SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
     }
   }
 
