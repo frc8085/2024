@@ -15,7 +15,7 @@ import static frc.robot.Constants.DriveConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   // imports motor id
-  private final CANSparkMax m_intakeMotor = new CANSparkMax(DriveConstants.kIntake1CanId, MotorType.kBrushless);
+  private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
   DigitalInput breakBeam = new DigitalInput(IntakeConstants.kIRPort);
 
   private double speed = IntakeConstants.speed;

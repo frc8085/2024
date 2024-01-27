@@ -81,8 +81,11 @@ public class RobotContainer {
          * {@link JoystickButton}.
          */
         private void configureButtonBindings() {
-                final Trigger intakeButton = m_operatorController.y();
-                intakeButton.whileTrue(new Intake(m_intake));
+                final Trigger intakeOnButton = m_operatorController.y();
+                final Trigger intakeOffButton = m_operatorController.a();
+
+                intakeOnButton.whileTrue(new InstantCommand(m_intake::forward));
+                intakeOffButton.whileTrue(new InstantCommand(m_intake::stop));
 
                 // Shooter Buttons for ON (X) and OFF (B)
                 final Trigger ShooterOnButton = m_operatorController.x();

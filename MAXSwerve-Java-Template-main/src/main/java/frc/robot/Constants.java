@@ -32,8 +32,8 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIRPort = 1;
-    public static final int kIntake1CanId = 21;
-    public static final double speed = .5;
+    public static final int kIntakeCanId = 21;
+    public static final double speed = 1;
   }
 
   public static final class ShooterConstants {
