@@ -89,6 +89,10 @@ public class Robot extends TimedRobot {
   private static final int subwooferScoreArm = 127 - adjustmentFactor;
   private static final int subwooferScoreShooter = 23;
 
+  // subwoofer low
+  private static final int subwooferLowScoreArm = 75 - adjustmentFactor;
+  private static final int subwooferLowScoreShooter = 75;
+
   // amp
   private static final int ampScoreArm = 114 - adjustmentFactor;
   private static final int ampScoreShooter = -39;
@@ -198,12 +202,13 @@ public class Robot extends TimedRobot {
     presetChooser.setDefaultOption("Starting Config", 0);
     presetChooser.addOption("Podium", 1);
     presetChooser.addOption("Subwoofer", 2);
-    presetChooser.addOption("Amp", 3);
-    presetChooser.addOption("Trap Approach", 4);
-    presetChooser.addOption("Trap Climb", 5);
-    presetChooser.addOption("Trap Score", 6);
-    presetChooser.addOption("High Podium", 7);
-    presetChooser.addOption("Back Podium", 8);
+    presetChooser.addOption("Subwoofer Low", 3);
+    presetChooser.addOption("Amp", 4);
+    presetChooser.addOption("Trap Approach", 5);
+    presetChooser.addOption("Trap Climb", 6);
+    presetChooser.addOption("Trap Score", 7);
+    presetChooser.addOption("High Podium", 8);
+    presetChooser.addOption("Back Podium", 9);
 
     SmartDashboard.putData(controlMode);
     SmartDashboard.putData(presetChooser);
@@ -271,26 +276,29 @@ public class Robot extends TimedRobot {
             armSetpoint = subwooferScoreArm;
             break;
           case 3:
+            shooterSetpoint = subwooferLowScoreShooter;
+            armSetpoint = subwooferLowScoreArm;
+          case 4:
             shooterSetpoint = ampScoreShooter;
             armSetpoint = ampScoreArm;
             break;
-          case 4:
+          case 5:
             shooterSetpoint = trapApproachShooter;
             armSetpoint = trapApproachArm;
             break;
-          case 5:
+          case 6:
             shooterSetpoint = trapClimbShooter;
             armSetpoint = trapClimbArm;
             break;
-          case 6:
+          case 7:
             shooterSetpoint = trapScoreShooter;
             armSetpoint = trapScoreArm;
             break;
-          case 7:
+          case 8:
             shooterSetpoint = highPodiumShooter;
             armSetpoint = highPodiumArm;
             break;
-          case 8:
+          case 9:
             shooterSetpoint = backPodiumShooter;
             armSetpoint = backPodiumArm;
             break;
