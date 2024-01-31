@@ -16,3 +16,12 @@ public class VisionSubsystem {
         return location;
     }
 }
+
+/**
+ * NOTE:
+ * What neural network model should we use? Teachable machine is a classifer
+ * meaning it classifies stuff.
+ * However a detection model will require a bit more work and *some* python (I
+ * can do that)
+ * but, as in the name, it only detects which is what we need it for. -Frank
+ */
