@@ -29,9 +29,11 @@ public class ShooterSubsystem extends SubsystemBase {
     // PID Constants for tuning
     double kShooter1P = ShooterConstants.kShooter1P;
     double kShooter1I = ShooterConstants.kShooter1I;
+    double kShooter1D = ShooterConstants.kShooter1D;
 
     double kShooter2P = ShooterConstants.kShooter2P;
     double kShooter2I = ShooterConstants.kShooter2I;
+    double kShooter2D = ShooterConstants.kShooter2D;
     // Shooter Set Points
     private double kShooter1SetPoint;
     private double kShooter2SetPoint;
@@ -65,6 +67,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
         m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
+        m_shooter1PIDController.setD(ShooterConstants.kShooter1D);
         m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF);
         m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
                 ShooterConstants.kShooter1MaxOutput);
@@ -73,6 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
         m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
+        m_shooter2PIDController.setD(ShooterConstants.kShooter2D);
         m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF);
         m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
                 ShooterConstants.kShooter2MaxOutput);

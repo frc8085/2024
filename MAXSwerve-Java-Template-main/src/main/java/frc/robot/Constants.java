@@ -42,30 +42,29 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int kShooter1CanId = 26;
         public static final int kShooter2CanId = 27;
-        public static final double speed1 = .8;
-        public static final double speed2 = -.8;
-        public static final double speed = 1;
         public static final int kShooterMotor2CurrentLimit = 0;
         public static final IdleMode kShooterMotor2IdleMode = null;
         public static final int kShooterMotor1CurrentLimit = 0;
-        public static IdleMode kShooterMotor1IdleMode;
-        public static double kShooter2MaxOutput;
-        public static double kShooter2MinOutput;
+        public static IdleMode kShooterMotor1IdleMode = IdleMode.kBrake;
+        public static double kShooter2MaxOutput = 0.8;
+        public static double kShooter2MinOutput = -0.8;
         public static double kShooter2FF = 0;
-        public static double kShooter2I;
-        public static double kShooter2P;
-        public static double kShooter1MaxOutput;
-        public static double kShooter1MinOutput;
+        public static double kShooter2P = 1;
+        public static double kShooter2I = 0.0001;
+        public static double kShooter2D = 0;
+        public static double kShooter1MaxOutput = 0.8;
+        public static double kShooter1MinOutput = -0.8;
         public static double kShooter1FF = 0;
-        public static double kShooter1I;
-        public static double kShooter1P;
-        public static double kShooterEncoder2VelocityFactor;
-        public static double kShooterEncoder2PositionFactor;
-        public static double kshooterEncoder1VelocityFactor;
-        public static double kshooterEncoder1PositionFactor;
+        public static double kShooter1P = 1;
+        public static double kShooter1I = 0.0001;
+        public static double kShooter1D = 0;
+        public static double kShooterEncoder2VelocityFactor = (2 * Math.PI) / 60.0;
+        public static double kShooterEncoder2PositionFactor = (2 * Math.PI);
+        public static double kshooterEncoder1VelocityFactor = (2 * Math.PI) / 60.0;
+        public static double kshooterEncoder1PositionFactor = (2 * Math.PI);
     }
 
-    public static final class DoubleJointedArmConstants {
+    public static final class ArmConstants {
         public static final int kArmCanId = 23;
         public static final int kShooterArmCanId = 24;
 
@@ -102,58 +101,61 @@ public final class Constants {
         public static final double kArmP = 1;
         public static final double kArmI = 0.0001;
         public static final double kArmD = 0.1;
-        // public static final double kIzArm = 0;
         public static final double kArmFF = 0;
         public static final double kArmMaxOutput = kArmMaxSpeed;
         public static final double kArmMinOutput = -kArmMaxSpeed;
 
         // Shooter PID coefficients
-        public static final int kShooterPIDSlot = 1;
-        public static final double kShooterP = .5;
-        public static final double kShooterI = 0.0001;
-        public static final double kShooterD = 0.1;
-        public static final double kShooterFF = 0;
-        public static final double kShooterMaxOutput = kShooterArmMaxSpeed;
-        public static final double kShooterMinOutput = -kShooterArmMaxSpeed;
+        public static final int kShooterArmPIDSlot = 0;
+        public static final double kShooterArmP = .5;
+        public static final double kShooterArmI = 0.0001;
+        public static final double kShooterArmD = 0.1;
+        public static final double kShooterArmFF = 0;
+        public static final double kShooterArmMaxOutput = kShooterArmMaxSpeed;
+        public static final double kShooterArmMinOutput = -kShooterArmMaxSpeed;
 
         // SETPOINTS
 
-        private static final int kAdjustmentFactor = 90;
+        public static final double kAdjustmentFactor = 90;
 
-        private static final int kTravelArm = 35 - kAdjustmentFactor;
-        private static final int kTravelShooter = 83;
+        public static final double kTravelArm = 35 - kAdjustmentFactor;
+        public static final double kTravelShooter = 83;
 
         // podium
-        private static final int kPodiumScoreArm = 46 - kAdjustmentFactor;
-        private static final int kPodiumScoreShooter = 79;
+        public static final double kPodiumArm = 46 - kAdjustmentFactor;
+        public static final double kPodiumShooter = 79;
 
-        // subwoofer
-        private static final int kSubwooferScoreArm = 127 - kAdjustmentFactor;
-        private static final int kSubwooferScoreShooter = 23;
+        // low subwoofer
+        public static final double kLowSubwooferArm = 75 - kAdjustmentFactor;
+        public static final double kLowSubwooferShooter = 75;
 
         // amp
-        private static final int kAmpScoreArm = 114 - kAdjustmentFactor;
-        private static final int kAmpScoreShooter = -39;
+        public static final double kAmpArm = 114 - kAdjustmentFactor;
+        public static final double kAmpShooter = -39;
 
         // trap approach
-        private static final int kTrapApproachArm = 132 - kAdjustmentFactor;
-        private static final int kTrapApproachShooter = -42;
+        public static final double kTrapApproachArm = 132 - kAdjustmentFactor;
+        public static final double kTrapApproachShooter = -42;
 
         // trap climb
-        private static final int kTrapClimbArm = 130 - kAdjustmentFactor;
-        private static final int kTrapClimbShooter = -40;
+        public static final double kTrapClimbArm = 130 - kAdjustmentFactor;
+        public static final double kTrapClimbShooter = -40;
 
         // trap score
-        private static final int kTrapScoreArm = 130 - kAdjustmentFactor;
-        private static final int kTrapScoreShooter = -55;
+        public static final double kTrapScoreArm = 130 - kAdjustmentFactor;
+        public static final double kTrapScoreShooter = -55;
 
         // high podium
-        private static final int kHighPodiumArm = 127 - kAdjustmentFactor;
-        private static final int kHighPodiumShooter = -40;
+        public static final double kHighPodiumArm = 127 - kAdjustmentFactor;
+        public static final double kHighPodiumShooter = -40;
 
         // back podium
-        private static final int kBackPodiumArm = 127 - kAdjustmentFactor;
-        private static final int kBackPodiumShooter = 166;
+        public static final double kBackPodiumArm = 127 - kAdjustmentFactor;
+        public static final double kBackPodiumShooter = 166;
+
+        // high subwoofer
+        public static final double kHighSubwooferArm = 127 - kAdjustmentFactor;
+        public static final double kHighSubwooferShooter = 23;
 
         // Estimates, fix this once we get exact measurements
         public static final double kArmTotalDegrees = 72.4; // TODO

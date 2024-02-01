@@ -15,12 +15,14 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -29,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeStop;
 
 import java.util.List;
 
@@ -43,6 +46,7 @@ public class RobotContainer {
     private final DriveSubsystem m_drive = new DriveSubsystem();
     private final ShooterSubsystem m_shooter = new ShooterSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    private final ArmSubsystem m_arm = new ArmSubsystem();
 
     // The driver's controller
     CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -91,13 +95,26 @@ public class RobotContainer {
         intake.whileTrue(new InstantCommand(m_intake::forward))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
-        moveToTravel.whileTrue(new InstantCommand());
-        moveToSubwoofer.whileTrue(new InstantCommand());
-        moveToAmp.whileTrue(new InstantCommand());
-        moveToPodium.whileTrue(new InstantCommand());
-        moveToTrapApproach.whileTrue(new InstantCommand());
-        moveToTrapScore.whileTrue(new InstantCommand());
-        moveToTrapClimb.whileTrue(new InstantCommand());
+        moveToTravel.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTravelArm)));
+
+        moveToSubwoofer.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kLowSubwooferArm)));
+
+        moveToAmp.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kAmpArm)));
+
+        moveToPodium.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kPodiumArm)));
+
+        moveToTrapApproach.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapApproachArm)));
+
+        moveToTrapScore.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapScoreArm)));
+
+        moveToTrapClimb.whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapClimbArm)));
 
         /**
          * Alternate positions.
@@ -105,13 +122,16 @@ public class RobotContainer {
          **/
 
         // Move to HIGH Podium
-        moveToPodium.and(alternatePosition).whileTrue(new InstantCommand());
+        moveToPodium.and(alternatePosition).whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kHighPodiumArm)));
 
         // Move to BACK Podium
-        moveToAmp.and(alternatePosition).whileTrue(new InstantCommand());
+        moveToAmp.and(alternatePosition).whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kBackPodiumArm)));
 
-        // Move to BACK Subwoofer
-        moveToSubwoofer.and(alternatePosition).whileTrue(new InstantCommand());
+        // Move to HIGH Subwoofer
+        moveToSubwoofer.and(alternatePosition).whileTrue(
+                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kHighSubwooferArm)));
 
     }
 

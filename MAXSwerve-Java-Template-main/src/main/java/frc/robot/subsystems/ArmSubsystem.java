@@ -10,18 +10,18 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DoubleJointedArmConstants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.TuningModeConstants;
 
-public class DoubleJointedArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
     private boolean TUNING_MODE = TuningModeConstants.kTuning;
 
     // Motors
     private final CANSparkFlex m_armMotor = new CANSparkFlex(
-            DoubleJointedArmConstants.kArmCanId, MotorType.kBrushless);
+            ArmConstants.kArmCanId, MotorType.kBrushless);
     private final CANSparkMax m_shooterArmMotor = new CANSparkMax(
-            DoubleJointedArmConstants.kShooterArmCanId, MotorType.kBrushless);
+            ArmConstants.kShooterArmCanId, MotorType.kBrushless);
 
     // Encoders
     private AbsoluteEncoder m_armEncoder;
@@ -33,16 +33,16 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
     private SparkPIDController m_shooterArmPIDController = m_shooterArmMotor.getPIDController();
 
     // PID Constants for tuning
-    double kArmP = DoubleJointedArmConstants.kArmP;
-    double kArmI = DoubleJointedArmConstants.kArmI;
-    double kArmD = DoubleJointedArmConstants.kArmD;
+    double kArmP = ArmConstants.kArmP;
+    double kArmI = ArmConstants.kArmI;
+    double kArmD = ArmConstants.kArmD;
 
-    double kShooterP = DoubleJointedArmConstants.kShooterP;
-    double kShooterI = DoubleJointedArmConstants.kShooterI;
-    double kShooterD = DoubleJointedArmConstants.kShooterD;
+    double kShooterP = ArmConstants.kShooterArmP;
+    double kShooterI = ArmConstants.kShooterArmI;
+    double kShooterD = ArmConstants.kShooterArmD;
 
     /** Creates a new ExampleSubsystem. */
-    public DoubleJointedArmSubsystem() {
+    public ArmSubsystem() {
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         // them. This is useful in case a SPARK MAX is swapped out.
 
@@ -61,58 +61,58 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
         // Apply position and velocity conversion factors for the encoders. We
         // want these in radians and radians per second to use with WPILib's swerve
         // APIs.
-        m_armEncoder.setPositionConversionFactor(DoubleJointedArmConstants.kArmEncoderPositionFactor);
-        m_armEncoder.setVelocityConversionFactor(DoubleJointedArmConstants.kArmEncoderVelocityFactor);
+        m_armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderPositionFactor);
+        m_armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderVelocityFactor);
 
-        m_shooterArmEncoder.setPositionConversionFactor(DoubleJointedArmConstants.kShooterArmEncoderPositionFactor);
-        m_shooterArmEncoder.setVelocityConversionFactor(DoubleJointedArmConstants.kShooterArmEncoderVelocityFactor);
+        m_shooterArmEncoder.setPositionConversionFactor(ArmConstants.kShooterArmEncoderPositionFactor);
+        m_shooterArmEncoder.setVelocityConversionFactor(ArmConstants.kShooterArmEncoderVelocityFactor);
 
         // Invert the encoders, since the output shaft rotates in the opposite
         // direction of
         // the steering motor in the MAXSwerve Module.
-        m_armEncoder.setInverted(DoubleJointedArmConstants.kArmEncoderInverted);
-        m_shooterArmEncoder.setInverted(DoubleJointedArmConstants.kShooterArmEncoderInverted);
+        m_armEncoder.setInverted(ArmConstants.kArmEncoderInverted);
+        m_shooterArmEncoder.setInverted(ArmConstants.kShooterArmEncoderInverted);
 
         // Enable PID wrap around for the turning motor. This will allow the PID
         // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
         // to 10 degrees will go through 0 rather than the other direction which is a
         // longer route.
         m_armPIDController.setPositionPIDWrappingEnabled(true);
-        m_armPIDController.setPositionPIDWrappingMinInput(DoubleJointedArmConstants.kArmEncoderPositionPIDMinInput);
-        m_armPIDController.setPositionPIDWrappingMaxInput(DoubleJointedArmConstants.kArmEncoderPositionPIDMaxInput);
+        m_armPIDController.setPositionPIDWrappingMinInput(ArmConstants.kArmEncoderPositionPIDMinInput);
+        m_armPIDController.setPositionPIDWrappingMaxInput(ArmConstants.kArmEncoderPositionPIDMaxInput);
 
         m_shooterArmPIDController.setPositionPIDWrappingEnabled(true);
         m_shooterArmPIDController
-                .setPositionPIDWrappingMinInput(DoubleJointedArmConstants.kShooterArmEncoderPositionPIDMinInput);
+                .setPositionPIDWrappingMinInput(ArmConstants.kShooterArmEncoderPositionPIDMinInput);
         m_shooterArmPIDController
-                .setPositionPIDWrappingMaxInput(DoubleJointedArmConstants.kShooterArmEncoderPositionPIDMaxInput);
+                .setPositionPIDWrappingMaxInput(ArmConstants.kShooterArmEncoderPositionPIDMaxInput);
 
         // Set the PID gains for the turning motor. Note these are example gains, and
         // you
         // may need to tune them for your own robot!
-        m_armPIDController.setP(DoubleJointedArmConstants.kArmP);
-        m_armPIDController.setI(DoubleJointedArmConstants.kArmI);
-        m_armPIDController.setD(DoubleJointedArmConstants.kArmD);
-        m_armPIDController.setFF(DoubleJointedArmConstants.kArmFF);
-        m_armPIDController.setOutputRange(DoubleJointedArmConstants.kArmMinOutput,
-                DoubleJointedArmConstants.kArmMaxOutput);
+        m_armPIDController.setP(ArmConstants.kArmP);
+        m_armPIDController.setI(ArmConstants.kArmI);
+        m_armPIDController.setD(ArmConstants.kArmD);
+        m_armPIDController.setFF(ArmConstants.kArmFF);
+        m_armPIDController.setOutputRange(ArmConstants.kArmMinOutput,
+                ArmConstants.kArmMaxOutput);
         m_armPIDController.setSmartMotionMaxAccel(0.5, 0);
         m_armPIDController.setSmartMotionMaxVelocity(0.5, 0);
 
-        m_shooterArmPIDController.setP(DoubleJointedArmConstants.kShooterP);
-        m_shooterArmPIDController.setI(DoubleJointedArmConstants.kShooterI);
-        m_shooterArmPIDController.setD(DoubleJointedArmConstants.kShooterD);
-        m_shooterArmPIDController.setFF(DoubleJointedArmConstants.kShooterFF);
-        m_shooterArmPIDController.setOutputRange(DoubleJointedArmConstants.kShooterMinOutput,
-                DoubleJointedArmConstants.kShooterMaxOutput);
+        m_shooterArmPIDController.setP(ArmConstants.kShooterArmP);
+        m_shooterArmPIDController.setI(ArmConstants.kShooterArmI);
+        m_shooterArmPIDController.setD(ArmConstants.kShooterArmD);
+        m_shooterArmPIDController.setFF(ArmConstants.kShooterArmFF);
+        m_shooterArmPIDController.setOutputRange(ArmConstants.kShooterArmMinOutput,
+                ArmConstants.kShooterArmMaxOutput);
         m_shooterArmPIDController.setSmartMotionMaxAccel(0.5, 0);
         m_shooterArmPIDController.setSmartMotionMaxVelocity(0.5, 0);
 
-        m_armMotor.setIdleMode(DoubleJointedArmConstants.kArmMotorIdleMode);
-        m_armMotor.setSmartCurrentLimit(DoubleJointedArmConstants.kArmMotorCurrentLimit);
+        m_armMotor.setIdleMode(ArmConstants.kArmMotorIdleMode);
+        m_armMotor.setSmartCurrentLimit(ArmConstants.kArmMotorCurrentLimit);
 
-        m_shooterArmMotor.setIdleMode(DoubleJointedArmConstants.kShooterArmMotorIdleMode);
-        m_shooterArmMotor.setSmartCurrentLimit(DoubleJointedArmConstants.kShooterArmMotorCurrentLimit);
+        m_shooterArmMotor.setIdleMode(ArmConstants.kShooterArmMotorIdleMode);
+        m_shooterArmMotor.setSmartCurrentLimit(ArmConstants.kShooterArmMotorCurrentLimit);
 
         // Save the SPARK MAX configurations. If a SPARK MAX browns out during
         // operation, it will maintain the above configurations.
@@ -137,14 +137,14 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
     // Maintain arm position in degrees
     public void setArmPositionDegrees(double degreesArm) {
         // set degrees for arm, convert to encoder value
-        double positionArm = degreesArm * DoubleJointedArmConstants.kArmRevolutionsPerDegree;
+        double positionArm = degreesArm * ArmConstants.kArmRevolutionsPerDegree;
         m_armPIDController.setReference(positionArm, ControlType.kPosition);
     }
 
     // Maintain shooter arm position in degrees
     public void setShooterArmPositionDegrees(double degreesShooterArm) {
         // set degrees for arm, convert to encoder value)
-        double positionShooterArm = degreesShooterArm * DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
+        double positionShooterArm = degreesShooterArm * ArmConstants.kShooterArmRevolutionsPerDegree;
         m_armPIDController.setReference(positionShooterArm, ControlType.kPosition);
     }
 
