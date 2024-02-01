@@ -35,9 +35,8 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int kIRPort = 1;
-        public static final int kIntake1CanId = 21;
+        public static final int kIntakeCanId = 21;
         public static final double speed = .5;
-        public static int kIntakeCanId;
     }
 
     public static final class ShooterConstants {
@@ -45,7 +44,6 @@ public final class Constants {
         public static final int kShooter2CanId = 27;
         public static final double speed1 = .8;
         public static final double speed2 = -.8;
-        public static final int kIntakeCanId = 21;
         public static final double speed = 1;
         public static final int kShooterMotor2CurrentLimit = 0;
         public static final IdleMode kShooterMotor2IdleMode = null;
@@ -154,6 +152,23 @@ public final class Constants {
         private static final int kBackPodiumArm = 127 - kAdjustmentFactor;
         private static final int kBackPodiumShooter = 166;
 
+        // Estimates, fix this once we get exact measurements
+        public static final double kArmTotalDegrees = 72.4; // TODO
+        public static final double kArmTotalRevolutions = 5.488; // TODO
+
+        // Convert angle of travel to encoder rotations, where encoder reading of .1 is
+        // 0 degrees and reading of 5.5 is 90 degrees
+        public static final double kArmRevolutionsPerDegree = -(kArmTotalRevolutions)
+                / kArmTotalDegrees;
+
+        // Estimates, fix this once we get exact measurements
+        public static final double kShooterArmTotalDegrees = 72.4; // TODO
+        public static final double kShooterArmTotalRevolutions = 5.488; // TODO
+
+        // Convert angle of travel to encoder rotations, where encoder reading of .1 is
+        // 0 degrees and reading of 5.5 is 90 degrees
+        public static final double kShooterArmRevolutionsPerDegree = -(kShooterArmTotalRevolutions)
+                / kShooterArmTotalDegrees;
     }
 
     public static final class ClimberConstants {
@@ -201,8 +216,6 @@ public final class Constants {
         public static final int kRearLeftTurningCanId = 12;
         public static final int kFrontRightTurningCanId = 13;
         public static final int kRearRightTurningCanId = 14;
-
-        public static final int kIntake1CanId = 21;
 
         // Gyro Constants
         public static final int kGyroDeviceNumber = 15;

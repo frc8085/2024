@@ -136,18 +136,16 @@ public class DoubleJointedArmSubsystem extends SubsystemBase {
 
     // Maintain arm position in degrees
     public void setArmPositionDegrees(double degreesArm) {
-        // set degrees for arm, convert to encoder value)
-        // double positionArm = degreesArm *
-        // DoubleJointedArmConstants.kArmRevolutionsPerDegree;
-        m_armPIDController.setReference(degreesArm, ControlType.kPosition);
+        // set degrees for arm, convert to encoder value
+        double positionArm = degreesArm * DoubleJointedArmConstants.kArmRevolutionsPerDegree;
+        m_armPIDController.setReference(positionArm, ControlType.kPosition);
     }
 
     // Maintain shooter arm position in degrees
     public void setShooterArmPositionDegrees(double degreesShooterArm) {
         // set degrees for arm, convert to encoder value)
-        // double positionShooterArm = degreesShooterArm *
-        // DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
-        m_armPIDController.setReference(degreesShooterArm, ControlType.kPosition);
+        double positionShooterArm = degreesShooterArm * DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
+        m_armPIDController.setReference(positionShooterArm, ControlType.kPosition);
     }
 
     public void periodic() {
