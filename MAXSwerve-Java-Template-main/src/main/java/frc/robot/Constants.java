@@ -93,6 +93,9 @@ public final class Constants {
         public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterArmMotorIdleMode = IdleMode.kBrake;
 
+        public static final double kArmMaxSpeed = 0.3;
+        public static final double kShooterArmMaxSpeed = 0.3;
+
         // PIDS
         // Arm PID coefficients
         public static final int kArmPIDSlot = 0;
@@ -101,8 +104,8 @@ public final class Constants {
         public static final double kArmD = 0.1;
         // public static final double kIzArm = 0;
         public static final double kArmFF = 0;
-        public static final double kArmMaxOutput = 1;
-        public static final double kArmMinOutput = -1;
+        public static final double kArmMaxOutput = kArmMaxSpeed;
+        public static final double kArmMinOutput = -kArmMaxSpeed;
 
         // Shooter PID coefficients
         public static final int kShooterPIDSlot = 1;
@@ -110,8 +113,8 @@ public final class Constants {
         public static final double kShooterI = 0.0001;
         public static final double kShooterD = 0.1;
         public static final double kShooterFF = 0;
-        public static final double kShooterMaxOutput = .9;
-        public static final double kShooterMinOutput = -.9;
+        public static final double kShooterMaxOutput = kShooterArmMaxSpeed;
+        public static final double kShooterMinOutput = -kShooterArmMaxSpeed;
 
         // SETPOINTS
 
