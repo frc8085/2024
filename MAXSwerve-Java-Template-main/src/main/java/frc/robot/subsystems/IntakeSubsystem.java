@@ -14,59 +14,59 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import static frc.robot.Constants.DriveConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  // imports motor id
-  private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
-  DigitalInput breakBeam = new DigitalInput(IntakeConstants.kIRPort);
+    // imports motor id
+    private final CANSparkMax m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
+    DigitalInput breakBeam = new DigitalInput(IntakeConstants.kIRPort);
 
-  private double speed = IntakeConstants.speed;
+    private double speed = IntakeConstants.speed;
 
-  /** Creates a new ExampleSubsystem. */
-  public IntakeSubsystem() {
-    SmartDashboard.putNumber("intake speed", speed);
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a
-   * digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-
-  public void forward() {
-    m_intakeMotor.set(speed);
-  }
-
-  public void stop() {
-    m_intakeMotor.set(0);
-  }
-
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    log();
-    NoteDetected();
-    tuneSpeeds();
-  }
-
-  public void log() {
-    if (LoggingConstants.kLogging) {
-      SmartDashboard.putBoolean("Note detected", NoteDetected());
+    /** Creates a new ExampleSubsystem. */
+    public IntakeSubsystem() {
+        SmartDashboard.putNumber("intake speed", speed);
     }
-  }
 
-  public Boolean NoteDetected() {
-    return !breakBeam.get();
-  }
+    /**
+     * An example method querying a boolean state of the subsystem (for example, a
+     * digital sensor).
+     *
+     * @return value of some boolean subsystem state, such as a digital sensor.
+     */
 
-  public void tuneSpeeds() {
-    speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);
+    public void forward() {
+        m_intakeMotor.set(speed);
+    }
 
-    SmartDashboard.putNumber("Intake speed", speed);
-  }
+    public void stop() {
+        m_intakeMotor.set(0);
+    }
+
+    public boolean exampleCondition() {
+        // Query some boolean state, such as a digital sensor.
+        return false;
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        log();
+        NoteDetected();
+        tuneSpeeds();
+    }
+
+    public void log() {
+        if (LoggingConstants.kLogging) {
+            SmartDashboard.putBoolean("Note detected", NoteDetected());
+        }
+    }
+
+    public Boolean NoteDetected() {
+        return !breakBeam.get();
+    }
+
+    public void tuneSpeeds() {
+        speed = SmartDashboard.getNumber("Intake speed", IntakeConstants.speed);
+
+        SmartDashboard.putNumber("Intake speed", speed);
+    }
 
 }
