@@ -26,7 +26,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static final class ShooterConstants {
     public static int kShooter1CanId = 21;
-    public static int kShooter2CanId = 22;
+    public static int kShooter2CanId = 21;
     public static final int kShooterMotor2CurrentLimit = 0;
     public static final IdleMode kShooterMotor2IdleMode = null;
     public static final int kShooterMotor1CurrentLimit = 0;

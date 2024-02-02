@@ -2,6 +2,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
@@ -83,6 +84,70 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor2.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
 
   }
+  // Returns the arm
+  public double getArmPosition() {
+    return m_shooterEncoder1.getPosition();
+  }
+
+  // Returns the Shooter arm
+  public double getShooterArmPosition() {
+    return m_shooterEncoder2.getPosition();
+  }
+
+  // Maintain arm position in degrees
+  public void setArmPositionDegrees(double degreesArm) {
+    // set degrees for arm, convert to encoder value)
+    // double positionArm = degreesArm *
+    // DoubleJointedArmConstants.kArmRevolutionsPerDegree;
+    m_shooter1PIDController.setReference(degreesArm, ControlType.kPosition);
+  }
+
+  // Maintain shooter arm position in degrees
+  public void setShooterArmPositionDegrees(double degreesShooterArm) {
+    // set degrees for arm, convert to encoder value)
+    // double positionShooterArm = degreesShooterArm *
+    // DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
+    m_shooter2PIDController.setReference(degreesShooterArm, ControlType.kPosition);
+  }
+
+  public void periodic() {
+    // This method will be called once per scheduler run
+    log();
+    if (TUNING_MODE) {
+      tunePIDs();
+    }
+  }
+
+  public void log() {
+    if (LoggingConstants.kLogging) {
+      SmartDashboard.putNumber("Arm Position", getArmPosition());
+      SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
+    }
+  }
+
+  public void addPIDToDashboard() {
+    SmartDashboard.putNumber("kArmP", kArmP);
+    SmartDashboard.putNumber("kArmI", kArmI);
+    SmartDashboard.putNumber("kArmD", kArmD);
+    SmartDashboard.putNumber("kShooterP", kShooterP);
+    SmartDashboard.putNumber("kShooterI", kShooterI);
+  }
+
+  public void tunePIDs() {
+    kArmP = SmartDashboard.getNumber("kArmP", 0);
+    kArmI = SmartDashboard.getNumber("kArmI", 0);
+    kArmD = SmartDashboard.getNumber("kArmD", 0);
+    SmartDashboard.putNumber("kArmP", kArmP);
+    SmartDashboard.putNumber("kArmI", kArmI);
+    SmartDashboard.putNumber("kArmD", kArmD);
+
+    kShooterP = SmartDashboard.getNumber("kShooterP", 0);
+    kShooterI = SmartDashboard.getNumber("kShooterI", 0);
+    SmartDashboard.putNumber("kShooterP", kShooterP);
+    SmartDashboard.putNumber("kShooterI", kShooterI);
+  }
+
+}
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a
