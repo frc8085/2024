@@ -24,6 +24,12 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final class LoggingConstants {
+    public static boolean kLogging = true;
+    public static boolean TUNING_MODE = true;
+
+  }
+
   public static final class ShooterConstants {
     public static int kShooter1CanId = 21;
     public static int kShooter2CanId = 21;

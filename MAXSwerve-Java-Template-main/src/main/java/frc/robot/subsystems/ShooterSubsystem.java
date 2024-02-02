@@ -10,6 +10,7 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LoggingConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -40,7 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooterMotor1.restoreFactoryDefaults();
     m_shooterMotor2.restoreFactoryDefaults();
-    // Setup encoders and PID controllers for the arm and shooter arms.
+    // Setup encoders and PID controllers for the Shooter1 and shooter Shooter1s.
     m_shooterEncoder1 = m_shooterMotor1.getAbsoluteEncoder(Type.kDutyCycle);
     m_shooter1PIDController = m_shooterMotor1.getPIDController();
     m_shooter1PIDController.setFeedbackDevice(m_shooterEncoder1);
@@ -84,6 +85,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor2.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
 
   }
+
   // Returns the arm
   public double getArmPosition() {
     return m_shooterEncoder1.getPosition();
@@ -113,7 +115,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     log();
-    if (TUNING_MODE) {
+    if (LoggingConstants.TUNING_MODE) {
       tunePIDs();
     }
   }
@@ -126,67 +128,65 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void addPIDToDashboard() {
-    SmartDashboard.putNumber("kArmP", kArmP);
-    SmartDashboard.putNumber("kArmI", kArmI);
-    SmartDashboard.putNumber("kArmD", kArmD);
-    SmartDashboard.putNumber("kShooterP", kShooterP);
-    SmartDashboard.putNumber("kShooterI", kShooterI);
+    SmartDashboard.putNumber("kArmP", kShooter1P);
+    SmartDashboard.putNumber("kArmI", kShooter1I);
+    SmartDashboard.putNumber("kArmD", kShooter1D);
+    SmartDashboard.putNumber("kShooterP", kShooter2P);
+    SmartDashboard.putNumber("kShooterI", kShooter2I);
   }
 
   public void tunePIDs() {
-    kArmP = SmartDashboard.getNumber("kArmP", 0);
-    kArmI = SmartDashboard.getNumber("kArmI", 0);
-    kArmD = SmartDashboard.getNumber("kArmD", 0);
-    SmartDashboard.putNumber("kArmP", kArmP);
-    SmartDashboard.putNumber("kArmI", kArmI);
-    SmartDashboard.putNumber("kArmD", kArmD);
+    kShooter1P = SmartDashboard.getNumber("kShooter1P", 0);
+    kShooter1I = SmartDashboard.getNumber("kShooter1I", 0);
+    kShooter1D = SmartDashboard.getNumber("kShooter1D", 0);
+    SmartDashboard.putNumber("kShooter1P", kShooter1P);
+    SmartDashboard.putNumber("kShooter1I", kShooter1I);
+    SmartDashboard.putNumber("kShooter1D", kShooter1D);
 
-    kShooterP = SmartDashboard.getNumber("kShooterP", 0);
-    kShooterI = SmartDashboard.getNumber("kShooterI", 0);
-    SmartDashboard.putNumber("kShooterP", kShooterP);
-    SmartDashboard.putNumber("kShooterI", kShooterI);
+    kShooter2P = SmartDashboard.getNumber("kShooter2P", 0);
+    kShooter2I = SmartDashboard.getNumber("kShooter2I", 0);
+    SmartDashboard.putNumber("kShooterP", kShooter2P);
+    SmartDashboard.putNumber("kShooterI", kShooter2I);
   }
 
 }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a
-   * digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
+/**
+ * An example method querying a boolean state of the subsystem (for example, a
+ * digital sensor).
+ *
+ * @return value of some boolean subsystem state, such as a digital sensor.
+ */
 
-  /*
-   * public void forward() {
-   * m_shooterMotor1.set(speed1);
-   * m_shooterMotor2.set(speed2);
-   * 
-   * }
-   * 
-   * public void stop() {
-   * m_shooterMotor1.set(0);
-   * m_shooterMotor2.set(0);
-   * }
-   * 
-   * @Override
-   * public void periodic() {
-   * // This method will be called once per scheduler run
-   * tuneSpeeds();
-   * log();
-   * }
-   * 
-   * public void log() {
-   * if (LoggingConstants.kLogging) {
-   * }
-   * }
-   * 
-   * public void tuneSpeeds() {
-   * speed1 = SmartDashboard.getNumber("shooter1 speed", ShooterConstants.speed1);
-   * speed2 = SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2);
-   * 
-   * SmartDashboard.putNumber("shooter1 speed", speed1);
-   * SmartDashboard.putNumber("shooter2 speed", speed2);
-   * }
-   */
-
-}
+/*
+ * public void forward() {
+ * m_shooterMotor1.set(speed1);
+ * m_shooterMotor2.set(speed2);
+ * 
+ * }
+ * 
+ * public void stop() {
+ * m_shooterMotor1.set(0);
+ * m_shooterMotor2.set(0);
+ * }
+ * 
+ * @Override
+ * public void periodic() {
+ * // This method will be called once per scheduler run
+ * tuneSpeeds();
+ * log();
+ * }
+ * 
+ * public void log() {
+ * if (LoggingConstants.kLogging) {
+ * }
+ * }
+ * 
+ * public void tuneSpeeds() {
+ * speed1 = SmartDashboard.getNumber("shooter1 speed", ShooterConstants.speed1);
+ * speed2 = SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2);
+ * 
+ * SmartDashboard.putNumber("shooter1 speed", speed1);
+ * SmartDashboard.putNumber("shooter2 speed", speed2);
+ * }
+ */
