@@ -32,6 +32,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeStop;
+import frc.robot.commands.MoveToAmp;
+import frc.robot.commands.MoveToPodium;
+import frc.robot.commands.MoveToPosition;
+import frc.robot.commands.MoveToSubwooferLow;
+import frc.robot.commands.MoveToTrapApproach;
+import frc.robot.commands.MoveToTrapClimb;
+import frc.robot.commands.MoveToTrapScore;
+import frc.robot.commands.MoveToTravel;
 
 import java.util.List;
 
@@ -95,26 +103,22 @@ public class RobotContainer {
         intake.whileTrue(new InstantCommand(m_intake::forward))
                 .whileFalse(new InstantCommand(m_intake::stop));
 
-        moveToTravel.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTravelArm)));
+        moveToTravel.whileTrue(new MoveToTravel(m_arm));
 
-        moveToSubwoofer.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kLowSubwooferArm)));
+        moveToSubwoofer.whileTrue(new MoveToSubwooferLow(m_arm));
 
-        moveToAmp.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kAmpArm)));
+        moveToAmp.whileTrue(new MoveToAmp(m_arm));
 
-        moveToPodium.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kPodiumArm)));
+        moveToPodium.whileTrue(new MoveToPodium(m_arm));
 
-        moveToTrapApproach.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapApproachArm)));
+        // TODO: Test the "ENUM approach" by pressing X here. 
+        moveToPodium.whileTrue(new MoveToPosition(m_arm, ArmConstants.Position.PODIUM));
 
-        moveToTrapScore.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapScoreArm)));
+        moveToTrapApproach.whileTrue(new MoveToTrapApproach(m_arm));
 
-        moveToTrapClimb.whileTrue(
-                new InstantCommand(() -> m_arm.setArmPositionDegrees(ArmConstants.kTrapClimbArm)));
+        moveToTrapScore.whileTrue(new MoveToTrapScore(m_arm));
+
+        moveToTrapClimb.whileTrue(new MoveToTrapClimb(m_arm));
 
         /**
          * Alternate positions.

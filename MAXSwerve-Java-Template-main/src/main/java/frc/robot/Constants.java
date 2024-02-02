@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -117,6 +120,47 @@ public final class Constants {
         // SETPOINTS
 
         public static final double kAdjustmentFactor = 90;
+
+        public enum Position {
+            TRAVEL("Travel", 35 - kAdjustmentFactor, 83),
+            PODIUM("Podium", 46 - kAdjustmentFactor, 79),
+            LOW_SUBWOOFER("LowSubwoofer", 75 - kAdjustmentFactor, 75);
+
+            private static final Map<String, Position> BY_LABEL = new HashMap<>();
+            private static final Map<Double, Position> BY_ARM_POSITION = new HashMap<>();
+            private static final Map<Double, Position> BY_SHOOTER_ARM_POSITION = new HashMap<>();
+
+            static {
+                for (Position e : values()) {
+                    BY_LABEL.put(e.label, e);
+                    BY_ARM_POSITION.put(e.armPosition, e);
+                    BY_SHOOTER_ARM_POSITION.put(e.shooterArmPosition, e);
+                }
+            }
+
+            public final String label;
+            public final double armPosition;
+            public final double shooterArmPosition;
+
+            private Position(String label, double armPosition, double shooterArmPosition) {
+                this.label = label;
+                this.armPosition = armPosition;
+                this.shooterArmPosition = shooterArmPosition;
+            }
+
+            public static Position valueOfLabel(String label) {
+                return BY_LABEL.get(label);
+            }
+
+            public static Position valueOfArmPosition(double armPosition) {
+                return BY_ARM_POSITION.get(armPosition);
+            }
+
+            public static Position valueOfShooterArmPosition(double shooterArmPosition) {
+                return BY_SHOOTER_ARM_POSITION.get(shooterArmPosition);
+            }
+
+        }
 
         public static final double kTravelArm = 35 - kAdjustmentFactor;
         public static final double kTravelShooter = 83;
