@@ -24,124 +24,29 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-  public static final class LoggingConstants {
-    public static final boolean kLogging = true;
-
-  }
-
-  public static final class TuningModeConstants {
-    public static final boolean kTuning = true;
-  }
-
-  public static final class IntakeConstants {
-    public static final int kIRPort = 1;
-    public static final int kIntake1CanId = 21;
-    public static final double speed = .5;
-  }
-
   public static final class ShooterConstants {
-    public static final int kShooter1CanId = 26;
-    public static final int kShooter2CanId = 27;
-    public static final double speed1 = .8;
-    public static final double speed2 = -.8;
-  }
-
-  public static final class DoubleJointedArmConstants {
-    public static final int kArmCanId = 23;
-    public static final int kShooterArmCanId = 24;
-
-    public static final int kArmMotorCurrentLimit = 20; // amps
-    public static final int kShooterArmMotorCurrentLimit = 20; // amps
-
-    // Invert the encoder, since the output shaft rotates in the opposite
-    // direction of
-    // the steering motor in the MAXSwerve Module.
-    public static final boolean kArmEncoderInverted = true;
-    public static final boolean kShooterArmEncoderInverted = true;
-
-    public static final double kArmEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kArmEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-
-    public static final double kArmEncoderPositionPIDMinInput = 0; // radians
-    public static final double kArmEncoderPositionPIDMaxInput = kArmEncoderPositionFactor; // radians
-
-    public static final double kShooterArmEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kShooterArmEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-
-    public static final double kShooterArmEncoderPositionPIDMinInput = 0; // radians
-    public static final double kShooterArmEncoderPositionPIDMaxInput = kShooterArmEncoderPositionFactor; // radians
-
-    public static final IdleMode kArmMotorIdleMode = IdleMode.kBrake;
-    public static final IdleMode kShooterArmMotorIdleMode = IdleMode.kBrake;
-
-    // PIDS
-    // Arm PID coefficients
-    public static final int kArmPIDSlot = 0;
-    public static final double kArmP = 1;
-    public static final double kArmI = 0.0001;
-    public static final double kArmD = 0.1;
-    // public static final double kIzArm = 0;
-    public static final double kArmFF = 0;
-    public static final double kArmMaxOutput = 1;
-    public static final double kArmMinOutput = -1;
-
-    // Shooter PID coefficients
-    public static final int kShooterPIDSlot = 1;
-    public static final double kShooterP = .5;
-    public static final double kShooterI = 0.0001;
-    public static final double kShooterD = 0.1;
-    public static final double kShooterFF = 0;
-    public static final double kShooterMaxOutput = .9;
-    public static final double kShooterMinOutput = -.9;
-
-    // SETPOINTS
-
-    private static final int kAdjustmentFactor = 90;
-
-    private static final int kTravelArm = 35 - kAdjustmentFactor;
-    private static final int kTravelShooter = 83;
-
-    // podium
-    private static final int kPodiumScoreArm = 46 - kAdjustmentFactor;
-    private static final int kPodiumScoreShooter = 79;
-
-    // subwoofer
-    private static final int kSubwooferScoreArm = 127 - kAdjustmentFactor;
-    private static final int kSubwooferScoreShooter = 23;
-
-    // amp
-    private static final int kAmpScoreArm = 114 - kAdjustmentFactor;
-    private static final int kAmpScoreShooter = -39;
-
-    // trap approach
-    private static final int kTrapApproachArm = 132 - kAdjustmentFactor;
-    private static final int kTrapApproachShooter = -42;
-
-    // trap climb
-    private static final int kTrapClimbArm = 130 - kAdjustmentFactor;
-    private static final int kTrapClimbShooter = -40;
-
-    // trap score
-    private static final int kTrapScoreArm = 130 - kAdjustmentFactor;
-    private static final int kTrapScoreShooter = -55;
-
-    // high podium
-    private static final int kHighPodiumArm = 127 - kAdjustmentFactor;
-    private static final int kHighPodiumShooter = -40;
-
-    // back podium
-    private static final int kBackPodiumArm = 127 - kAdjustmentFactor;
-    private static final int kBackPodiumShooter = 166;
-
-  }
-
-  public static final class ClimberConstants {
-    public static final int kWinchCanId = 22;
-  }
-
-  public static final class FeederConstants {
-    public static final int kFeederCanId = 25;
+    public static int kShooter1CanId = 21;
+    public static int kShooter2CanId = 22;
+    public static final int kShooterMotor2CurrentLimit = 0;
+    public static final IdleMode kShooterMotor2IdleMode = null;
+    public static final int kShooterMotor1CurrentLimit = 0;
+    public static IdleMode kShooterMotor1IdleMode;
+    public static double kShooter2MaxOutput;
+    public static double kShooter2MinOutput;
+    public static double kShooter2FF;
+    public static double kShooter2D;
+    public static double kShooter2I;
+    public static double kShooter2P;
+    public static double kShooter1MaxOutput;
+    public static double kShooter1MinOutput;
+    public static double kShooter1FF;
+    public static double kShooter1D;
+    public static double kShooter1I;
+    public static double kShooter1P;
+    public static double kShooterEncoder2VelocityFactor;
+    public static double kShooterEncoder2PositionFactor;
+    public static double kshooterEncoder1VelocityFactor;
+    public static double kshooterEncoder1PositionFactor;
   }
 
   public static final class DriveConstants {
@@ -244,8 +149,8 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 0;
     public static final double kDriveDeadband = 0.05;
-    public static int kOperatorControllerPort = 1;
   }
 
   public static final class AutoConstants {
