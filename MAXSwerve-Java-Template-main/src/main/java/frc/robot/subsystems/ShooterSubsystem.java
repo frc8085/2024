@@ -5,6 +5,7 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
@@ -15,54 +16,54 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   // imports motor id
-  private final CANSparkMax m_shooterMotor1 = new CANSparkMax(
+  private final CANSparkMax m_shooter1Motor = new CANSparkMax(
       ShooterConstants.kShooter1CanId, MotorType.kBrushless);
-  private final CANSparkMax m_shooterMotor2 = new CANSparkMax(
+  private final CANSparkMax m_shooter2Motor = new CANSparkMax(
       ShooterConstants.kShooter2CanId, MotorType.kBrushless);
   // Encoders
-  private AbsoluteEncoder m_shooterEncoder1;
-  private AbsoluteEncoder m_shooterEncoder2;
+  private RelativeEncoder m_shooter1Encoder;
+  private RelativeEncoder m_shooter2Encoder;
   // PID Controllers
-  private SparkPIDController m_shooter1PIDController = m_shooterMotor1.getPIDController();
-  private SparkPIDController m_shooter2PIDController = m_shooterMotor2.getPIDController();
+  private SparkPIDController m_shooter1PIDController = m_shooter1Motor.getPIDController();
+  private SparkPIDController m_shooter2PIDController = m_shooter2Motor.getPIDController();
   // PID Constants for tuning
   double kShooter1P = ShooterConstants.kShooter1P;
   double kShooter1I = ShooterConstants.kShooter1I;
-  double kShooter1D = ShooterConstants.kShooter1D;
 
   double kShooter2P = ShooterConstants.kShooter2P;
   double kShooter2I = ShooterConstants.kShooter2I;
-  double kShooter2D = ShooterConstants.kShooter2D;
+  // Shooter Set Points
+  private double kShooter1SetPoint;
+  private double kShooter2SetPoint;
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.
 
-    m_shooterMotor1.restoreFactoryDefaults();
-    m_shooterMotor2.restoreFactoryDefaults();
+    m_shooter1Motor.restoreFactoryDefaults();
+    m_shooter2Motor.restoreFactoryDefaults();
     // Setup encoders and PID controllers for the Shooter1 and shooter Shooter1s.
-    m_shooterEncoder1 = m_shooterMotor1.getAbsoluteEncoder(Type.kDutyCycle);
-    m_shooter1PIDController = m_shooterMotor1.getPIDController();
-    m_shooter1PIDController.setFeedbackDevice(m_shooterEncoder1);
+    m_shooter1Encoder = m_shooter1Motor.getRelativeEncoder(Type.kDutyCycle);
+    m_shooter1PIDController = m_shooter1Motor.getPIDController();
+    m_shooter1PIDController.setFeedbackDevice(m_shooter1Encoder);
 
-    m_shooterEncoder2 = m_shooterMotor2.getAbsoluteEncoder(Type.kDutyCycle);
-    m_shooter2PIDController = m_shooterMotor2.getPIDController();
-    m_shooter2PIDController.setFeedbackDevice(m_shooterEncoder2);
+    m_shooter2Encoder = m_shooter2Motor.getRelativeEncoder(Type.kDutyCycle);
+    m_shooter2PIDController = m_shooter2Motor.getPIDController();
+    m_shooter2PIDController.setFeedbackDevice(m_shooter2Encoder);
 
     // Apply position and velocity conversion factors for the encoders. We
     // want these in radians and radians per second to use with WPILib's swerve
     // APIs.
-    m_shooterEncoder1.setPositionConversionFactor(ShooterConstants.kshooterEncoder1PositionFactor);
-    m_shooterEncoder1.setVelocityConversionFactor(ShooterConstants.kshooterEncoder1VelocityFactor);
+    m_shooter1Encoder.setPositionConversionFactor(ShooterConstants.kshooterEncoder1PositionFactor);
+    m_shooter1Encoder.setVelocityConversionFactor(ShooterConstants.kshooterEncoder1VelocityFactor);
 
-    m_shooterEncoder2.setPositionConversionFactor(ShooterConstants.kShooterEncoder2PositionFactor);
-    m_shooterEncoder2.setVelocityConversionFactor(ShooterConstants.kShooterEncoder2VelocityFactor);
+    m_shooter2Encoder.setPositionConversionFactor(ShooterConstants.kShooterEncoder2PositionFactor);
+    m_shooter2Encoder.setVelocityConversionFactor(ShooterConstants.kShooterEncoder2VelocityFactor);
     // Didn't invert the encoders
 
     m_shooter1PIDController.setP(ShooterConstants.kShooter1P);
     m_shooter1PIDController.setI(ShooterConstants.kShooter1I);
-    m_shooter1PIDController.setD(ShooterConstants.kShooter1D);
     m_shooter1PIDController.setFF(ShooterConstants.kShooter1FF);
     m_shooter1PIDController.setOutputRange(ShooterConstants.kShooter1MinOutput,
         ShooterConstants.kShooter1MaxOutput);
@@ -71,46 +72,51 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooter2PIDController.setP(ShooterConstants.kShooter2P);
     m_shooter2PIDController.setI(ShooterConstants.kShooter2I);
-    m_shooter2PIDController.setD(ShooterConstants.kShooter2D);
     m_shooter2PIDController.setFF(ShooterConstants.kShooter2FF);
     m_shooter2PIDController.setOutputRange(ShooterConstants.kShooter2MinOutput,
         ShooterConstants.kShooter2MaxOutput);
     m_shooter2PIDController.setSmartMotionMaxAccel(0.5, 0);
     m_shooter2PIDController.setSmartMotionMaxVelocity(0.5, 0);
 
-    m_shooterMotor1.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
-    m_shooterMotor1.setSmartCurrentLimit(ShooterConstants.kShooterMotor1CurrentLimit);
+    m_shooter1Motor.setIdleMode(ShooterConstants.kShooterMotor1IdleMode);
+    m_shooter1Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor1CurrentLimit);
 
-    m_shooterMotor2.setIdleMode(ShooterConstants.kShooterMotor2IdleMode);
-    m_shooterMotor2.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
+    m_shooter2Motor.setIdleMode(ShooterConstants.kShooterMotor2IdleMode);
+    m_shooter2Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
 
   }
 
-  // Returns the arm
-  public double getArmPosition() {
-    return m_shooterEncoder1.getPosition();
-  }
-
-  // Returns the Shooter arm
-  public double getShooterArmPosition() {
-    return m_shooterEncoder2.getPosition();
-  }
-
-  // Maintain arm position in degrees
-  public void setArmPositionDegrees(double degreesArm) {
-    // set degrees for arm, convert to encoder value)
-    // double positionArm = degreesArm *
-    // DoubleJointedArmConstants.kArmRevolutionsPerDegree;
-    m_shooter1PIDController.setReference(degreesArm, ControlType.kPosition);
-  }
-
-  // Maintain shooter arm position in degrees
-  public void setShooterArmPositionDegrees(double degreesShooterArm) {
-    // set degrees for arm, convert to encoder value)
-    // double positionShooterArm = degreesShooterArm *
-    // DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
-    m_shooter2PIDController.setReference(degreesShooterArm, ControlType.kPosition);
-  }
+  /**
+   * need to review
+   * 
+   * // Returns the arm
+   * public double getArmPosition() {
+   * return m_shooter1Encoder.getPosition();
+   * }
+   * 
+   * // Returns the Shooter arm
+   * public double getShooterArmPosition() {
+   * return m_shooter2Encoder.getPosition();
+   * }
+   * 
+   * // Maintain arm position in degrees
+   * public void setArmPositionDegrees(double degreesArm) {
+   * // set degrees for arm, convert to encoder value)
+   * // double positionArm = degreesArm *
+   * // DoubleJointedArmConstants.kArmRevolutionsPerDegree;
+   * m_shooter1PIDController.setReference(degreesArm, ControlType.kPosition);
+   * }
+   * 
+   * // Maintain shooter arm position in degrees
+   * public void setShooterArmPositionDegrees(double degreesShooterArm) {
+   * // set degrees for arm, convert to encoder value)
+   * // double positionShooterArm = degreesShooterArm *
+   * // DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
+   * m_shooter2PIDController.setReference(degreesShooterArm,
+   * ControlType.kPosition);
+   * }
+   * 
+   */
 
   public void periodic() {
     // This method will be called once per scheduler run
@@ -122,26 +128,24 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void log() {
     if (LoggingConstants.kLogging) {
-      SmartDashboard.putNumber("Arm Position", getArmPosition());
-      SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
+      // SmartDashboard.putNumber("Arm Position", getArmPosition());
+      // SmartDashboard.putNumber("Shooter Arm Position", getShooterArmPosition());
+      //
     }
   }
 
   public void addPIDToDashboard() {
-    SmartDashboard.putNumber("kArmP", kShooter1P);
-    SmartDashboard.putNumber("kArmI", kShooter1I);
-    SmartDashboard.putNumber("kArmD", kShooter1D);
-    SmartDashboard.putNumber("kShooterP", kShooter2P);
-    SmartDashboard.putNumber("kShooterI", kShooter2I);
+    SmartDashboard.putNumber("kShooter1P", kShooter1P);
+    SmartDashboard.putNumber("kShooter1I", kShooter1I);
+    SmartDashboard.putNumber("kShooter2P", kShooter2P);
+    SmartDashboard.putNumber("kShooter2I", kShooter2I);
   }
 
   public void tunePIDs() {
     kShooter1P = SmartDashboard.getNumber("kShooter1P", 0);
     kShooter1I = SmartDashboard.getNumber("kShooter1I", 0);
-    kShooter1D = SmartDashboard.getNumber("kShooter1D", 0);
     SmartDashboard.putNumber("kShooter1P", kShooter1P);
     SmartDashboard.putNumber("kShooter1I", kShooter1I);
-    SmartDashboard.putNumber("kShooter1D", kShooter1D);
 
     kShooter2P = SmartDashboard.getNumber("kShooter2P", 0);
     kShooter2I = SmartDashboard.getNumber("kShooter2I", 0);
@@ -149,7 +153,32 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("kShooterI", kShooter2I);
   }
 
+  // Stop the Shooter
+  public void stop() {
+    m_shooter1Motor.set(0);
+    m_shooter2Motor.set(0);
+  }
+
+  public void setShooter1SetPoint(double shooter1SetPoint) {
+    kShooter1SetPoint = Math.max(shooter1SetPoint, 4500);
+    m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
+  }
+
+  public void setShooter2SetPoint(double shooter2SetPoint) {
+    kShooter2SetPoint = Math.max(shooter2SetPoint, 4500);
+    m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
+  }
+
+  public boolean atShooter1SetPoint() {
+    double m_shooter1Encoder = m_shooter1Encoder.getVelocity();
+  }
+
+  public boolean atShooter2SetPoint() {
+    boolean m_shooter2Encoder = m_shooter2Encoder.getVelocity();
+  }
 }
+
+//
 
 /**
  * An example method querying a boolean state of the subsystem (for example, a
@@ -160,14 +189,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
 /*
  * public void forward() {
- * m_shooterMotor1.set(speed1);
- * m_shooterMotor2.set(speed2);
+ * m_shooter1Motor.set(speed1);
+ * m_shooter2Motor.set(speed2);
  * 
  * }
  * 
  * public void stop() {
- * m_shooterMotor1.set(0);
- * m_shooterMotor2.set(0);
+ * m_shooter1Motor.set(0);
+ * m_shooter2Motor.set(0);
  * }
  * 
  * @Override

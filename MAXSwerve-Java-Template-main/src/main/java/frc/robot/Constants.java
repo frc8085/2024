@@ -27,6 +27,7 @@ public final class Constants {
 
   public static final class LoggingConstants {
     public static final boolean kLogging = true;
+    public static final boolean TUNING_MODE = true;
 
   }
 
@@ -37,10 +38,26 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kShooter1CanId = 26;
-    public static final int kShooter2CanId = 27;
-    public static final double speed1 = .8;
-    public static final double speed2 = -.8;
+    public static int kShooter1CanId = 21;
+    public static int kShooter2CanId = 21;
+    public static final int kShooterMotor2CurrentLimit = 0;
+    public static final IdleMode kShooterMotor2IdleMode = null;
+    public static final int kShooterMotor1CurrentLimit = 0;
+    public static IdleMode kShooterMotor1IdleMode;
+    public static double kShooter2MaxOutput;
+    public static double kShooter2MinOutput;
+    public static double kShooter2FF = 0;
+    public static double kShooter2I;
+    public static double kShooter2P;
+    public static double kShooter1MaxOutput;
+    public static double kShooter1MinOutput;
+    public static double kShooter1FF = 0;
+    public static double kShooter1I;
+    public static double kShooter1P;
+    public static double kShooterEncoder2VelocityFactor;
+    public static double kShooterEncoder2PositionFactor;
+    public static double kshooterEncoder1VelocityFactor;
+    public static double kshooterEncoder1PositionFactor;
   }
 
   public static final class DoubleJointedArmConstants {

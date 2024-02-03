@@ -80,7 +80,7 @@ public class RobotContainer {
          * passing it to a
          * {@link JoystickButton}.
          */
-        private void configureButtonBindings() {
+        public void configureButtonBindings() {
                 final Trigger intakeOnButton = m_operatorController.y();
                 final Trigger intakeOffButton = m_operatorController.a();
 
