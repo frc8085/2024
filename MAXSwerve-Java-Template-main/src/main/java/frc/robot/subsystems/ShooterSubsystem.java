@@ -1,12 +1,9 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,9 +17,11 @@ public class ShooterSubsystem extends SubsystemBase {
       ShooterConstants.kShooter1CanId, MotorType.kBrushless);
   private final CANSparkMax m_shooter2Motor = new CANSparkMax(
       ShooterConstants.kShooter2CanId, MotorType.kBrushless);
+
   // Encoders
   private RelativeEncoder m_shooter1Encoder;
   private RelativeEncoder m_shooter2Encoder;
+
   // PID Controllers
   private SparkPIDController m_shooter1PIDController = m_shooter1Motor.getPIDController();
   private SparkPIDController m_shooter2PIDController = m_shooter2Motor.getPIDController();
@@ -43,12 +42,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooter1Motor.restoreFactoryDefaults();
     m_shooter2Motor.restoreFactoryDefaults();
+
     // Setup encoders and PID controllers for the Shooter1 and shooter Shooter1s.
-    m_shooter1Encoder = m_shooter1Motor.getRelativeEncoder(Type.kDutyCycle);
+    m_shooter1Encoder = m_shooter1Motor.getEncoder();
     m_shooter1PIDController = m_shooter1Motor.getPIDController();
     m_shooter1PIDController.setFeedbackDevice(m_shooter1Encoder);
 
-    m_shooter2Encoder = m_shooter2Motor.getRelativeEncoder(Type.kDutyCycle);
+    m_shooter2Encoder = m_shooter2Motor.getEncoder();
     m_shooter2PIDController = m_shooter2Motor.getPIDController();
     m_shooter2PIDController.setFeedbackDevice(m_shooter2Encoder);
 
@@ -83,40 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooter2Motor.setIdleMode(ShooterConstants.kShooterMotor2IdleMode);
     m_shooter2Motor.setSmartCurrentLimit(ShooterConstants.kShooterMotor2CurrentLimit);
-
   }
-
-  /**
-   * need to review
-   * 
-   * // Returns the arm
-   * public double getArmPosition() {
-   * return m_shooter1Encoder.getPosition();
-   * }
-   * 
-   * // Returns the Shooter arm
-   * public double getShooterArmPosition() {
-   * return m_shooter2Encoder.getPosition();
-   * }
-   * 
-   * // Maintain arm position in degrees
-   * public void setArmPositionDegrees(double degreesArm) {
-   * // set degrees for arm, convert to encoder value)
-   * // double positionArm = degreesArm *
-   * // DoubleJointedArmConstants.kArmRevolutionsPerDegree;
-   * m_shooter1PIDController.setReference(degreesArm, ControlType.kPosition);
-   * }
-   * 
-   * // Maintain shooter arm position in degrees
-   * public void setShooterArmPositionDegrees(double degreesShooterArm) {
-   * // set degrees for arm, convert to encoder value)
-   * // double positionShooterArm = degreesShooterArm *
-   * // DoubleJointedArmConstants.kShooterArmRevolutionsPerDegree;
-   * m_shooter2PIDController.setReference(degreesShooterArm,
-   * ControlType.kPosition);
-   * }
-   * 
-   */
 
   public void periodic() {
     // This method will be called once per scheduler run
@@ -159,6 +126,11 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter2Motor.set(0);
   }
 
+  public void run() {
+    setShooter1SetPoint(kShooter1SetPoint);
+    setShooter2SetPoint(kShooter2SetPoint);
+  }
+
   public void setShooter1SetPoint(double shooter1SetPoint) {
     kShooter1SetPoint = Math.max(shooter1SetPoint, 4500);
     m_shooter1PIDController.setReference(kShooter1SetPoint, CANSparkMax.ControlType.kVelocity);
@@ -169,53 +141,4 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter2PIDController.setReference(kShooter2SetPoint, CANSparkMax.ControlType.kVelocity);
   }
 
-  public boolean atShooter1SetPoint() {
-    double m_shooter1Encoder = m_shooter1Encoder.getVelocity();
-  }
-
-  public boolean atShooter2SetPoint() {
-    boolean m_shooter2Encoder = m_shooter2Encoder.getVelocity();
-  }
 }
-
-//
-
-/**
- * An example method querying a boolean state of the subsystem (for example, a
- * digital sensor).
- *
- * @return value of some boolean subsystem state, such as a digital sensor.
- */
-
-/*
- * public void forward() {
- * m_shooter1Motor.set(speed1);
- * m_shooter2Motor.set(speed2);
- * 
- * }
- * 
- * public void stop() {
- * m_shooter1Motor.set(0);
- * m_shooter2Motor.set(0);
- * }
- * 
- * @Override
- * public void periodic() {
- * // This method will be called once per scheduler run
- * tuneSpeeds();
- * log();
- * }
- * 
- * public void log() {
- * if (LoggingConstants.kLogging) {
- * }
- * }
- * 
- * public void tuneSpeeds() {
- * speed1 = SmartDashboard.getNumber("shooter1 speed", ShooterConstants.speed1);
- * speed2 = SmartDashboard.getNumber("shooter2 speed", ShooterConstants.speed2);
- * 
- * SmartDashboard.putNumber("shooter1 speed", speed1);
- * SmartDashboard.putNumber("shooter2 speed", speed2);
- * }
- */

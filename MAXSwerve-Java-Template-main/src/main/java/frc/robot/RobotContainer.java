@@ -91,7 +91,7 @@ public class RobotContainer {
                 final Trigger ShooterOnButton = m_operatorController.x();
                 final Trigger ShooterOffButton = m_operatorController.b();
 
-                ShooterOnButton.whileTrue(new InstantCommand(m_shooter::forward));
+                ShooterOnButton.whileTrue(new InstantCommand(m_shooter::run));
                 ShooterOffButton.whileTrue(new InstantCommand(m_shooter::stop));
 
         }
