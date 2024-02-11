@@ -13,7 +13,7 @@ public class ShooterSubsystem extends SubsystemBase {
   // imports motor id
   private final CANSparkMax m_shooterMotor1 = new CANSparkMax(ShooterConstants.kShooter1CanId, MotorType.kBrushless);
   private final CANSparkMax m_shooterMotor2 = new CANSparkMax(ShooterConstants.kShooter2CanId, MotorType.kBrushless);
-
+  private final CANSparkMax m_feederMotor = new CANSparkMax(25, MotorType.kBrushless);
   private double speed1 = ShooterConstants.speed1;
   private double speed2 = ShooterConstants.speed2;
 
@@ -31,14 +31,16 @@ public class ShooterSubsystem extends SubsystemBase {
    */
 
   public void forward() {
-          m_shooterMotor1.set(speed1);
-         m_shooterMotor2.set(speed2);
+    m_shooterMotor1.set(speed1);
+    m_shooterMotor2.set(speed2);
+    m_feederMotor.set(1);
 
   }
 
   public void stop() {
-      m_shooterMotor1.set(0);
-     m_shooterMotor2.set(0);
+    m_shooterMotor1.set(0);
+    m_shooterMotor2.set(0);
+    m_feederMotor.set(0);
   }
 
   @Override
