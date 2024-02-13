@@ -33,13 +33,19 @@ public class ShooterSubsystem extends SubsystemBase {
   public void forward() {
     m_shooterMotor1.set(speed1);
     m_shooterMotor2.set(speed2);
-    m_feederMotor.set(1);
 
   }
 
   public void stop() {
     m_shooterMotor1.set(0);
     m_shooterMotor2.set(0);
+  }
+
+  public void feederforward() {
+    m_feederMotor.set(1);
+  }
+
+  public void feederstop() {
     m_feederMotor.set(0);
   }
 
